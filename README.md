@@ -6,7 +6,7 @@ Serverless lead capture platform built on AWS. Hosts a static site via S3 + Clou
 
 ## Architecture Diagram
 
-![Architecture Diagram](/Images/Architecture_Diagram_Serverless_Lead_Capture)
+![Architecture Diagram](/Images/Architecture_Diagram_Serverless_Lead_Capture.png)
 
 ---
 
