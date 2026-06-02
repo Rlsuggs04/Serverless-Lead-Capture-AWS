@@ -36,7 +36,3 @@ resource "aws_s3_object" "ebook_files" {
   }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
 }
 
-# Output the website URL in the terminal after applying the Terraform configuration. This allows us to easily access the static website hosted on S3 without needing to look up the endpoint manually.
-output "website_url" {
-  value = "http://${aws_s3_bucket_website_configuration.epicreads_roberts_v3.website_endpoint}/Ebook/index.html"
-}
