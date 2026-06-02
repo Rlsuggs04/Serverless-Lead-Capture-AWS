@@ -10,7 +10,7 @@ resource "aws_cloudfront_origin_access_control" "epicreads" {
 # Creates the CloudFront distribution which sits in front of your S3 bucket serving your static site globally over HTTPS using your ACM certificate
 resource "aws_cloudfront_distribution" "epicreads" {
   enabled             = true
-  default_root_object = "Ebook/index.html"
+  default_root_object = "index.html" #When users access the root domain (epicreads.rsuggs.dev), CloudFront will serve the index.html file by default, ensuring the website loads correctly without needing to specify the full path.
   aliases             = ["epicreads.rsuggs.dev"]
 
   # Points CloudFront to your S3 bucket as the origin (where content lives)
@@ -72,7 +72,7 @@ resource "aws_s3_bucket_policy" "epicreads_cloudfront" {
           Service = "cloudfront.amazonaws.com"
         }
         Action   = "s3:GetObject"
-        Resource = "${aws_s3_bucket.epicreads_roberts_v3.arn}/Ebook/*"
+        Resource = "${aws_s3_bucket.epicreads_roberts_v3.arn}/*"
         Condition = {
           StringEquals = {
             "AWS:SourceArn" = aws_cloudfront_distribution.epicreads.arn
