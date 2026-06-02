@@ -72,7 +72,7 @@ resource "aws_s3_bucket_policy" "epicreads_cloudfront" {
           Service = "cloudfront.amazonaws.com"
         }
         Action   = "s3:GetObject"
-        Resource = "${aws_s3_bucket.epicreads-roberts-v3.arn}/Ebook/*"
+        Resource = "${aws_s3_bucket.epicreads-roberts-v3.arn.id}/Ebook/*"
         Condition = {
           StringEquals = {
             "AWS:SourceArn" = aws_cloudfront_distribution.epicreads.arn
