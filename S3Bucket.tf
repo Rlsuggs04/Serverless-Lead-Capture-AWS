@@ -1,3 +1,9 @@
+#I changed the name of the S3 bucket to "epicreads-roberts-v3" to ensure it is unique across AWS. S3 bucket names must be globally unique, so this change helps avoid conflicts with existing buckets. I also updated the references to the bucket name in the code accordingly.
+import {
+  to = aws_s3_bucket.epicreads_roberts_v3
+  id = "epicreads-roberts-v3"
+}
+
 # Creating the S3 Bucket
 resource "aws_s3_bucket" "epicreads_roberts_v3" {
   bucket = "epicreads-roberts-v3"
