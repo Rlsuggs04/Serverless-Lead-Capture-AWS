@@ -1,7 +1,12 @@
+variable "hosted_zone_id"{
+    description = "Route 53 Hosted Zone ID for rsuggs.dev"
+    type = string
+}
+
 #Importing the existing hosted zone so Terraform doesn't try to create a duplicate.
 import {
   to = aws_route53_zone.primary
-  id = "Z02450321PJXLTJU406CT"
+  id = var.hosted_zone_id
 }
 
 #Defines the Route53 hosted zone for our domain, which is necessary for managing DNS records and validating our ACM certificate for the custom domain we'll use with CloudFront.
