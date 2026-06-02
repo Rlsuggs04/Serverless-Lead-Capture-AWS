@@ -1,6 +1,6 @@
-variable "hosted_zone_id"{
-    description = "Route 53 Hosted Zone ID for rsuggs.dev"
-    type = string
+variable "hosted_zone_id" {
+  description = "Route 53 Hosted Zone ID for rsuggs.dev"
+  type        = string
 }
 
 #Importing the existing hosted zone so Terraform doesn't try to create a duplicate.
