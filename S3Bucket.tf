@@ -1,11 +1,11 @@
 # Creating the S3 Bucket
-resource "aws_s3_bucket" "epicreads-roberts-v3" {
+resource "aws_s3_bucket" "epicreads_roberts_v3" {
   bucket = "epicreads-roberts-v3"
 }
 
 # Enable Static Website Hosting
-resource "aws_s3_bucket_website_configuration" "epicreads-roberts-v3" {
-  bucket = aws_s3_bucket.epicreads-roberts-v3.id
+resource "aws_s3_bucket_website_configuration" "epicreads_roberts_v3" {
+  bucket = aws_s3_bucket.epicreads_roberts_v3.id
 
   index_document {
     suffix = "index.html"
@@ -20,7 +20,7 @@ resource "aws_s3_bucket_website_configuration" "epicreads-roberts-v3" {
 resource "aws_s3_object" "ebook_files" {
   for_each = fileset("${path.module}/Ebook", "**/*") #Fileset + foreach iterates over everything inside the Ebook/ folder and uploads it to S3, preserving the directory structure.
 
-  bucket = aws_s3_bucket.epicreads-roberts-v3.id
+  bucket = aws_s3_bucket.epicreads_roberts_v3.id
   key    = "Ebook/${each.value}"
   source = "${path.module}/Ebook/${each.value}"
   etag   = filemd5("${path.module}/Ebook/${each.value}") #Uses an MD5 hash so Terraform detects and re-uploads files that have changed.
@@ -38,5 +38,5 @@ resource "aws_s3_object" "ebook_files" {
 
 # Output the website URL in the terminal after applying the Terraform configuration. This allows us to easily access the static website hosted on S3 without needing to look up the endpoint manually.
 output "website_url" {
-  value = "http://${aws_s3_bucket_website_configuration.epicreads-roberts-v3.website_endpoint}/Ebook/index.html"
+  value = "http://${aws_s3_bucket_website_configuration.epicreads_roberts_v3.website_endpoint}/Ebook/index.html"
 }
