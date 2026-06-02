@@ -3,16 +3,6 @@ resource "aws_s3_bucket" "epicreads-roberts-v3" {
   bucket = "epicreads-roberts-v3"
 }
 
-# Disable Block Public Access
-resource "aws_s3_bucket_public_access_block" "epicreads-roberts-v3" {
-  bucket = aws_s3_bucket.epicreads-roberts-v3.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
-
 # Enable Static Website Hosting
 resource "aws_s3_bucket_website_configuration" "epicreads-roberts-v3" {
   bucket = aws_s3_bucket.epicreads-roberts-v3.id
@@ -24,27 +14,6 @@ resource "aws_s3_bucket_website_configuration" "epicreads-roberts-v3" {
   error_document {
     key = "error.html"
   }
-}
-
-# Bucket Policy - Allow Public Read
-resource "aws_s3_bucket_policy" "epicreads-roberts-v3" {
-  bucket = aws_s3_bucket.epicreads-roberts-v3.id
-
-  # Defining an explicit dependency - Must apply after public access block is configured
-  depends_on = [aws_s3_bucket_public_access_block.epicreads-roberts-v3]
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid       = "PublicReadGetObject"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.epicreads-roberts-v3.arn}/Ebook/*" #Scoped to Ebook/* only, allowing public read access to the website files while keeping the bucket itself private for other operations.
-      }
-    ]
-  })
 }
 
 # Upload Ebook folder contents. The ${path.module} variable ensures we reference the correct path to the Ebook folder in our project. It automatically resolves to the directory where the main.tf lives.
@@ -67,7 +36,7 @@ resource "aws_s3_object" "ebook_files" {
   }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
 }
 
-# Output the website URL
+# Output the website URL in the terminal after applying the Terraform configuration. This allows us to easily access the static website hosted on S3 without needing to look up the endpoint manually.
 output "website_url" {
   value = "http://${aws_s3_bucket_website_configuration.epicreads-roberts-v3.website_endpoint}/Ebook/index.html"
 }
