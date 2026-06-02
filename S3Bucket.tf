@@ -21,7 +21,7 @@ resource "aws_s3_object" "ebook_files" {
   for_each = fileset("${path.module}/Ebook", "**/*") #Fileset + foreach iterates over everything inside the Ebook/ folder and uploads it to S3, preserving the directory structure.
 
   bucket = aws_s3_bucket.epicreads_roberts_v3.id
-  key    = "Ebook/${each.value}"
+  key    = each.value #Removed the Ebook/ prefix from the key so that the files are uploaded to the root of the bucket, matching the expected structure for static website hosting. The directory structure is preserved in S3, so subfolders and their contents will still be organized as they are in the local Ebook/ folder.
   source = "${path.module}/Ebook/${each.value}"
   etag   = filemd5("${path.module}/Ebook/${each.value}") #Uses an MD5 hash so Terraform detects and re-uploads files that have changed.
 
