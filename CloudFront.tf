@@ -15,7 +15,7 @@ resource "aws_cloudfront_distribution" "epicreads" {
 
   # Points CloudFront to your S3 bucket as the origin (where content lives)
   origin {
-    domain_name              = aws_s3_bucket.epicreads.bucket_regional_domain_name
+    domain_name              = aws_s3_bucket.epicreads-roberts-v3.bucket_regional_domain_name
     origin_id                = "epicreads-s3-origin"
     origin_access_control_id = aws_cloudfront_origin_access_control.epicreads.id
   }
