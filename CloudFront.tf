@@ -15,7 +15,7 @@ resource "aws_cloudfront_distribution" "epicreads" {
 
   # Points CloudFront to your S3 bucket as the origin (where content lives)
   origin {
-    domain_name              = aws_s3_bucket.epicreads-roberts-v3.bucket_regional_domain_name
+    domain_name              = aws_s3_bucket.epicreads_roberts_v3.bucket_regional_domain_name
     origin_id                = "epicreads-s3-origin"
     origin_access_control_id = aws_cloudfront_origin_access_control.epicreads.id
   }
@@ -25,7 +25,7 @@ resource "aws_cloudfront_distribution" "epicreads" {
     allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "epicreads-s3-origin"
-    viewer_protocol_policy = "redirect-to-https" #Any HTTP request will be redirected to HTTPS, ensuring secure connections to your site.
+    viewer_protocol_policy = "redirect-to-https"
 
     forwarded_values {
       query_string = false
@@ -60,9 +60,9 @@ resource "aws_cloudfront_distribution" "epicreads" {
 
 # Updates the S3 bucket policy to only allow CloudFront to access the bucket directly via the OAC, blocking any direct public S3 access
 resource "aws_s3_bucket_policy" "epicreads_cloudfront" {
-  bucket = aws_s3_bucket.epicreads-roberts-v3.arn.id
+  bucket = aws_s3_bucket.epicreads_roberts_v3.id
 
-   policy = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -72,7 +72,7 @@ resource "aws_s3_bucket_policy" "epicreads_cloudfront" {
           Service = "cloudfront.amazonaws.com"
         }
         Action   = "s3:GetObject"
-        Resource = "${aws_s3_bucket["epicreads-roberts-v3"].arn}/Ebook/*"
+        Resource = "${aws_s3_bucket.epicreads_roberts_v3.arn}/Ebook/*"
         Condition = {
           StringEquals = {
             "AWS:SourceArn" = aws_cloudfront_distribution.epicreads.arn
