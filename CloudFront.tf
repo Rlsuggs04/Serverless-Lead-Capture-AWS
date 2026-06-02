@@ -60,7 +60,7 @@ resource "aws_cloudfront_distribution" "epicreads" {
 
 # Updates the S3 bucket policy to only allow CloudFront to access the bucket directly via the OAC, blocking any direct public S3 access
 resource "aws_s3_bucket_policy" "epicreads_cloudfront" {
-  bucket = aws_s3_bucket.epicreads.id
+  bucket = aws_s3_bucket.epicreads-roberts-v3.arn.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -72,7 +72,7 @@ resource "aws_s3_bucket_policy" "epicreads_cloudfront" {
           Service = "cloudfront.amazonaws.com"
         }
         Action   = "s3:GetObject"
-        Resource = "${aws_s3_bucket.epicreads.arn}/Ebook/*"
+        Resource = "${aws_s3_bucket.epicreads-roberts-v3.arn}/Ebook/*"
         Condition = {
           StringEquals = {
             "AWS:SourceArn" = aws_cloudfront_distribution.epicreads.arn
