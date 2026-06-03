@@ -3,19 +3,6 @@ resource "aws_s3_bucket" "epicreads_roberts_v3" {
   bucket = "epicreads-roberts-v3"
 }
 
-# Enable Static Website Hosting
-resource "aws_s3_bucket_website_configuration" "epicreads_roberts_v3" {
-  bucket = aws_s3_bucket.epicreads_roberts_v3.id
-
-  index_document {
-    suffix = "index.html"
-  }
-
-  error_document {
-    key = "error.html"
-  }
-}
-
 # Upload Ebook folder contents. The ${path.module} variable ensures we reference the correct path to the Ebook folder in our project. It automatically resolves to the directory where the main.tf lives.
 resource "aws_s3_object" "ebook_files" {
   for_each = fileset("${path.module}/Ebook", "**/*") #Fileset + foreach iterates over everything inside the Ebook/ folder and uploads it to S3, preserving the directory structure.
