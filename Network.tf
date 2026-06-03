@@ -1,4 +1,5 @@
-variable "hosted_zone_id" {
+#Defining the variable for the hosted zone ID, which is necessary for importing the existing Route53 hosted zone into Terraform.
+variable "hosted_zone_id" { 
   description = "Route 53 Hosted Zone ID for rsuggs.dev"
   type        = string
 }
