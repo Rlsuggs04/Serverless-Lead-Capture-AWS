@@ -4,7 +4,7 @@ resource "aws_api_gateway_rest_api" "epicreads_api" {
   name = "EpicReads_api"
 
   endpoint_configuration {
-    types            = ["REGIONAL"]
+    types = ["REGIONAL"]
   }
 
   tags = {
