@@ -38,7 +38,7 @@ terraform.rc
 
 #Exclude the Ebook files
 Ebook/
-s
+
 # Exclude the lambda.zip file created by the build script
 lambda.zip
 
