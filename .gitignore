@@ -38,6 +38,9 @@ terraform.rc
 
 #Exclude the Ebook files
 Ebook/
+s
+# Exclude the lambda.zip file created by the build script
+lambda.zip
 
 #Excluding the .DS_Store files created by MacOS
 .DS_Store
