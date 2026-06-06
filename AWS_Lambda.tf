@@ -85,14 +85,3 @@ resource "aws_lambda_function" "epicreads_contactus" {
     Name = "epicreads-contactus"
   }
 }
-
-variable "email1" {
-  description = "First SES verified email address"
-  type        = string
-}
-
-# Declares the email2 variable to store the second SES verified email address
-variable "email2" {
-  description = "Second SES verified email address"
-  type        = string
-}
