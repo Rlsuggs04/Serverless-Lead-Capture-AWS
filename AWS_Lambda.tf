@@ -43,6 +43,12 @@ resource "aws_iam_policy" "epicreads_ses_policy" {
         Effect   = "Allow"
         Action   = ["ses:SendEmail", "ses:SendRawEmail"]
         Resource = "*"
+      },
+      {
+        Sid      = "AllowDynamoDBPutItem"
+        Effect   = "Allow"
+        Action   = ["dynamodb:PutItem"]
+        Resource = aws_dynamodb_table.contact_messages.arn #Scopes the permission to only allow PutItem actions on the ContactMessages DynamoDB table.
       }
     ]
   })
