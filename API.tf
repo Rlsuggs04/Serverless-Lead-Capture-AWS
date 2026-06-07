@@ -123,6 +123,20 @@ resource "aws_api_gateway_stage" "epicreads_stage" {
   stage_name    = "prod"
 }
 
+# Applies throttling to all methods and resources in the prod stage to protect
+# against abuse and unexpected AWS cost spikes. Limits sustained requests to
+# 10 per second with a max burst of 5 requests. Adjust these values based on your expected traffic and budget.
+resource "aws_api_gateway_method_settings" "epicreads_throttling" {
+  rest_api_id = aws_api_gateway_rest_api.epicreads_api.id
+  stage_name  = aws_api_gateway_stage.epicreads_stage.stage_name
+  method_path = "*/*"
+
+  settings {
+    throttling_rate_limit  = 10
+    throttling_burst_limit = 5
+  }
+}
+
 # Outputs the full invoke URL that the frontend will use to POST form data
 output "api_invoke_url" {
   value = "${aws_api_gateway_stage.epicreads_stage.invoke_url}/contact"
