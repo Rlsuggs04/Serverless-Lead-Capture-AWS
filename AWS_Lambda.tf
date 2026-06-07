@@ -84,6 +84,7 @@ resource "aws_lambda_function" "epicreads_contactus" {
     variables = {
       RECEIVER_EMAIL = var.email1
       SENDER_EMAIL   = var.email2
+      TABLE_NAME     = aws_dynamodb_table.contact_messages.name
     }
   }
 
